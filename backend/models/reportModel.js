@@ -23,10 +23,6 @@ const reportSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    remarks: {
-      type: String,
-      required: true,
-    },
     satisfactory_score: {
       type: Number,
       required: true,
@@ -35,11 +31,15 @@ const reportSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    is_approved: {
+    remarks: {
+      type: String,
+      required: true,
+    },
+    is_received: {
       type: Boolean,
       default: false,
     },
-    is_received: {
+    is_approved: {
       type: Boolean,
       default: false,
     },
