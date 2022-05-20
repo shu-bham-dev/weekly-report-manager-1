@@ -8,6 +8,7 @@ import { errorHandler, notFound } from './middlewares/errorHandler.js'
 
 import userRoutes from './routes/userRoutes.js'
 import employeeRoutes from './routes/employeeRoutes.js'
+import reportRoutes from './routes/reportRoutes.js'
 
 // import routes
 
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 // route middlewares
 app.use('/api/users', userRoutes)
 app.use('/api/employees', employeeRoutes)
+app.use('/api/reports', reportRoutes)
 
 // custom middlewares
 app.use(notFound)
