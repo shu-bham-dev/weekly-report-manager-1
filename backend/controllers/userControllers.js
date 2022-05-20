@@ -118,6 +118,11 @@ export const getUsers = asyncHandler(async (req, res, next) => {
     // only sending the most recent created report
     const usersWithReports = users.map((user) => {
       const userWithReports = user.toObject()
+
+      // changing the roles of the users
+      userWithReports.role = getUserRole(user.role)
+
+      // sorting those reports by date
       userWithReports.reports = user.reports.sort((a, b) => {
         return new Date(b.start_date) - new Date(a.start_date)
       })
@@ -132,6 +137,8 @@ export const getUsers = asyncHandler(async (req, res, next) => {
         userWithReports.recently_created_report_id = null
         userWithReports.recently_created_report_date = null
       }
+
+      delete userWithReports.reports
 
       return userWithReports
     })
@@ -148,13 +155,42 @@ export const getUsers = asyncHandler(async (req, res, next) => {
 // @access  Admin & Associate
 export const getEmployees = asyncHandler(async (req, res, next) => {
   const employees = await User.find({ department: 'Web Development' })
-    .select('-hashed_password')
-    .select('-salt')
+    .select('-password')
     .select('-__v')
+    .select('-createdAt')
     .select('-updatedAt')
+    .populate('reports')
 
   if (employees) {
-    res.json(employees)
+    // only sending the most recent created report
+    const employeesWithReports = employees.map((employee) => {
+      const employeeWithReports = employee.toObject()
+
+      // changing the roles of the employees
+      employeeWithReports.role = getUserRole(employee.role)
+
+      // sorting those reports by date
+      employeeWithReports.reports = employee.reports.sort((a, b) => {
+        return new Date(b.start_date) - new Date(a.start_date)
+      })
+
+      // get only the first report
+      if (employeeWithReports.reports[0]) {
+        employeeWithReports.recently_created_report_id =
+          employeeWithReports.reports[0]._id
+        employeeWithReports.recently_created_report_date =
+          employeeWithReports.reports[0].start_date
+      } else {
+        employeeWithReports.recently_created_report_id = null
+        employeeWithReports.recently_created_report_date = null
+      }
+
+      delete employeeWithReports.reports
+
+      return employeeWithReports
+    })
+
+    res.json(employeesWithReports)
   } else {
     res.status(404)
     throw new Error('Employees not found')

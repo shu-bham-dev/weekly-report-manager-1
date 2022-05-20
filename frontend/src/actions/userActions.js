@@ -42,8 +42,6 @@ const login = (email, password) => async (dispatch) => {
       },
     }
 
-    // console.log('frontend', email, password)
-
     const { data } = await axios.post(
       '/api/users/login',
       { email, password },
@@ -94,8 +92,6 @@ const register = (name, email, password) => async (dispatch) => {
         'Content-Type': 'application/json',
       },
     }
-
-    // console.log('frontend', name, email, password)
 
     const { data } = await axios.post(
       '/api/users',

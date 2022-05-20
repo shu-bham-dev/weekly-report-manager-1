@@ -6,7 +6,7 @@ import Home from './components/Home'
 import Register from './components/Register'
 import Login from './components/Login'
 import EmployeeList from './components/EmployeeList'
-import PersonalReports from './components/PersonalReports'
+import EmployeeReports from './components/EmployeeReports'
 // import EmployeeReports from './components/EmployeeReports'
 import CreateReport from './components/CreateReport'
 import ViewReport from './components/ViewReport'
@@ -24,8 +24,8 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/employee-list' element={<EmployeeList />} />
-          {/* <Route path='/my-reports' element={<PersonalReports />} /> */}
-          <Route path='/employee/:id' element={<PersonalReports />} />
+          {/* <Route path='/my-reports' element={<EmployeeReports />} /> */}
+          <Route path='/employee/:id' element={<EmployeeReports />} />
           <Route path='/employee/:id/new-report' element={<CreateReport />} />
           <Route path='/employee/:id/view-report' element={<ViewReport />} />
           <Route path='/employee/:id/edit-report' element={<EditReport />} />

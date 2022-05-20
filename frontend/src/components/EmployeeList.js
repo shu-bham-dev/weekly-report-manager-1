@@ -37,8 +37,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }))
 
 const EmployeeList = () => {
-  const [employeeLength, setEmployeeLength] = useState(0)
-
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -66,6 +64,10 @@ const EmployeeList = () => {
     } else {
       alert(`The entered ID does not match with ${name}'s ID`)
     }
+  }
+
+  const viewLastUpdatedReportHandler = (employee_id, report_id) => {
+    navigate(`/employee/${employee_id}/view-report/${report_id}`)
   }
 
   return (
@@ -100,12 +102,29 @@ const EmployeeList = () => {
                   </StyledTableCell>
 
                   <StyledTableCell align='right'>
-                    {employee.createdAt}
+                    {employee.recently_created_report_date
+                      ? new Date(
+                          employee.recently_created_report_date
+                        ).toLocaleDateString('en-US')
+                      : 'No Reports'}
                   </StyledTableCell>
                   <StyledTableCell align='right'>
-                    <Button variant='contained' color='primary'>
-                      View
-                    </Button>
+                    {employee.recently_created_report_id ? (
+                      <Button
+                        variant='contained'
+                        color='primary'
+                        onClick={() =>
+                          viewLastUpdatedReportHandler(
+                            employee._id,
+                            employee.recently_created_report_id
+                          )
+                        }
+                      >
+                        View
+                      </Button>
+                    ) : (
+                      <Button>No Reports</Button>
+                    )}
                   </StyledTableCell>
                   <StyledTableCell align='right'>
                     <Button
