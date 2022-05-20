@@ -37,8 +37,8 @@ const Header = () => {
 
   return (
     <>
-      <AppBar sx={{ background: '#063970' }}>
-        <Toolbar>
+      <AppBar sx={{ background: '#063970'}}>
+        <Toolbar sx={{mb : 2 }}>
           <img src={atclogo} height='80px' alt='logo in header' />
           {isMatch ? (
             <>
