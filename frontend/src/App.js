@@ -14,13 +14,6 @@ import EditReport from './components/EditReport'
 
 import './App.css'
 
-// This is comment
-<<<<<<< HEAD
-// This is second comment
-=======
-
-// this is another comment
->>>>>>> e76d9b91e408f4774e21838ab57d0b336c614df2
 function App() {
   return (
     <>
