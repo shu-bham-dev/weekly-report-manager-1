@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../actions/userActions'
 
@@ -24,12 +25,14 @@ const Header = () => {
   // console.log(isMatch);
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   const logoutHandler = () => {
     dispatch(logout())
+    navigate('/')
   }
 
   return (

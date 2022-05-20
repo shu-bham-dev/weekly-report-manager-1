@@ -5,6 +5,17 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
+const getUserRole = (role) => {
+  switch (role) {
+    case process.env.ADMIN_ROLE:
+      return 'Admin'
+    case process.env.EMPLOYEE_ROLE:
+      return 'Employee'
+    default:
+      return 'Unspecified User'
+  }
+}
+
 // User Controllers
 // CRUD operations
 // userLogin - login user
@@ -34,7 +45,7 @@ export const userLogin = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      role: user.role,
+      role: getUserRole(user.role),
       token: generateToken(user._id),
     })
   } else {
@@ -47,7 +58,7 @@ export const userLogin = asyncHandler(async (req, res) => {
 //@route    GET /api/users/logout
 //@access   Public
 export const userLogout = asyncHandler(async (req, res) => {
-  res.clearCookie('t')
+  res.clearCookie('userInfo')
   res.json({ message: 'Logout success' })
 })
 
@@ -58,7 +69,7 @@ export const userRegister = asyncHandler(async (req, res) => {
   // console.log(req.body)
   const { name, email, password } = req.body
 
-  console.log('backend', name, email, password)
+  // console.log('backend', name, email, password)
 
   const userExists = await User.findOne({ email })
 
@@ -80,7 +91,7 @@ export const userRegister = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      // role: user.role,
+      role: getUserRole(user.role),
       department: user.department,
       token: generateToken(user._id),
     })
@@ -94,14 +105,38 @@ export const userRegister = asyncHandler(async (req, res) => {
 // @route   GET /api/users
 // @access  Public
 export const getUsers = asyncHandler(async (req, res, next) => {
-  const users = await User.find({})
-    .select('-hashed_password')
-    .select('-salt')
+  const users = await User.find({}, '', {
+    sort: { name: 1 },
+  })
+    .select('-password')
     .select('-__v')
+    .select('-createdAt')
     .select('-updatedAt')
+    .populate('reports')
 
   if (users) {
-    res.json(users)
+    // only sending the most recent created report
+    const usersWithReports = users.map((user) => {
+      const userWithReports = user.toObject()
+      userWithReports.reports = user.reports.sort((a, b) => {
+        return new Date(b.start_date) - new Date(a.start_date)
+      })
+
+      // get only the first report
+      if (userWithReports.reports[0]) {
+        userWithReports.recently_created_report_id =
+          userWithReports.reports[0]._id
+        userWithReports.recently_created_report_date =
+          userWithReports.reports[0].start_date
+      } else {
+        userWithReports.recently_created_report_id = null
+        userWithReports.recently_created_report_date = null
+      }
+
+      return userWithReports
+    })
+
+    res.status(200).json(usersWithReports)
   } else {
     res.status(404)
     throw new Error('Users not found')

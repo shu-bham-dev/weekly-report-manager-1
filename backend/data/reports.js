@@ -24,8 +24,8 @@ const reports = [
     hours_worked: 40,
     remarks:
       'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.',
-    is_received: false,
-    is_approved: false,
+    is_received: true,
+    is_approved: true,
   },
   {
     start_date: '2020-01-01',
@@ -52,7 +52,7 @@ const reports = [
     hours_worked: 40,
     remarks:
       'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.',
-    is_received: false,
+    is_received: true,
     is_approved: false,
   },
   {
@@ -80,8 +80,8 @@ const reports = [
     hours_worked: 40,
     remarks:
       'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.',
-    is_received: false,
-    is_approved: false,
+    is_received: true,
+    is_approved: true,
   },
 ]
 
