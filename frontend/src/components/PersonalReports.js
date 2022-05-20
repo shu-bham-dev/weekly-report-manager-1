@@ -15,7 +15,6 @@ import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import { display } from '@mui/system'
 
-import UserCard from "./UserCard.js";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -150,13 +149,6 @@ const PersonalReports = () => {
 
   return (
     <>
-      <div>PersonalReports</div>
-      <div>PersonalReports</div>
-      <div>PersonalReports</div>
-      <div>PersonalReports</div>
-      <div>PersonalReports</div>
-      <div>{id}</div>
-
       {user && (
         <>
 
@@ -167,20 +159,24 @@ const PersonalReports = () => {
             <div className="col-md-4 animated fadeIn">
               <div className="card">
                 <div className="card-body">
-          <div>Personal Details</div>
                   <div className="avatar">
+                    <img src='https://cdn.pixabay.com/photo/2021/07/02/04/48/user-6380868__340.png'
+                    alt="User Profile" 
+                    height='100px' 
+                    width='100px' />
                   </div>
+                  <h2 className="card-title">
+                  Name: {user.name}
+                  </h2>
                   <h5 className="card-title">
-                  {user.name}
+                  Email: {user.email}
                   </h5>
                   <h5 className="card-title">
-                  {user.email}
+                  Department: {user.department}
                   </h5>
-                  <p className="card-text">
-                    Varanasi
-                    <br />
-                    <span className="phone">{user.department}</span>
-                  </p>
+                  <h5 className="card-title">
+                  ID : {id}
+                  </h5>
                 </div>
               </div>
             </div>

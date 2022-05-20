@@ -98,3 +98,7 @@ footer p a:hover {
     max-width: 1040px;
   }
 }
+
+.clearfix{
+  margin-top: 100px;
+}
