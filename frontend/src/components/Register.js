@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { register } from '../actions/userActions'
 
-// import './register.css'
+import './register.css'
 
 const Signup = ({ history }) => {
   const [name, setName] = useState('')
@@ -30,7 +30,6 @@ const Signup = ({ history }) => {
 
   const signupHandler = (event) => {
     event.preventDefault()
-
     if (password !== confirmPassword) {
       setMessage('Passwords do not match')
       alert('Passwords do not match')
@@ -79,6 +78,8 @@ const Signup = ({ history }) => {
               type='text'
               name='password'
               value={password}
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
               onChange={(event) => setPassword(event.target.value)}
             />
           </div>
