@@ -8,7 +8,7 @@ import {
 } from './utilities'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
-const UserProfileCard = () => {
+const UserProfileCard = ({ user }) => {
   let id = 'f43h48s777f89ff2'
   let name = 'John Smith'
   let email = 'john.smith@gmail.com'
@@ -102,3 +102,7 @@ const UserProfileCard = () => {
 }
 
 export default UserProfileCard
+
+UserProfileCard.defaultProps = {
+  user: {},
+}
