@@ -18,7 +18,7 @@ import {
   getReportDetailsReducer,
   listReportsByEmployeeReducer,
   updateReportReducer,
-  updateReportByAdminReducer,
+  adminUpdateReportReducer,
   deleteReportReducer,
 } from './reducers/reportReducers'
 
@@ -35,7 +35,7 @@ const reducer = combineReducers({
   getReportDetails: getReportDetailsReducer,
   listReportsByEmployee: listReportsByEmployeeReducer,
   updateReport: updateReportReducer,
-  updateReportByAdmin: updateReportByAdminReducer,
+  adminUpdateReport: adminUpdateReportReducer,
   deleteReport: deleteReportReducer,
 })
 

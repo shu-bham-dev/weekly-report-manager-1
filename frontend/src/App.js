@@ -13,12 +13,13 @@ import ViewReport from './components/ViewReport'
 import EditReport from './components/EditReport'
 
 import './App.css'
+import MyReport from './components/MyReport'
 
 function App() {
   return (
     <>
       <Router>
-        <Header />
+        {/* <Header /> */}
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />
@@ -27,11 +28,13 @@ function App() {
           {/* <Route path='/my-reports' element={<EmployeeReports />} /> */}
           <Route path='/employee/:id' element={<EmployeeReports />} />
           <Route path='/employee/:id/new-report' element={<CreateReport />} />
-          <Route path='/employee/:id/view-report' element={<ViewReport />} />
+          <Route
+            path='/employee/:user_id/view-report/:report_id'
+            element={<MyReport />}
+          />
           <Route path='/employee/:id/edit-report' element={<EditReport />} />
           {/* <Route path='/employee-reports' element={<EmployeeReports />} /> */}
           {/* <Route path='/create-report' element={<EmployeeList />} />
-          <Route path='/view-report' element={<EmployeeList />} />
           <Route path='/update-report' element={<EmployeeList />} /> */}
         </Routes>
       </Router>

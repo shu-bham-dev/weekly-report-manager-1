@@ -22,7 +22,7 @@ import {
   REPORT_LIST_BY_EMPLOYEE_SUCCESS,
   REPORT_LIST_BY_EMPLOYEE_FAIL,
   REPORT_LIST_BY_EMPLOYEE_RESET,
-} from '../actions/reportConstants'
+} from '../constants/reportConstants'
 
 const createReportReducer = (state = {}, action) => {
   switch (action.type) {
