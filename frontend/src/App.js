@@ -14,6 +14,8 @@ import EditReport from './components/EditReport'
 
 import './App.css'
 import MyReport from './components/MyReport'
+import Anauthorized from './components/Anauthorized'
+import NotFound from './components/NotFound'
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
             element={<MyReport />}
           />
           <Route path='/employee/:id/edit-report' element={<EditReport />} />
+          <Route path='/401' element={<Anauthorized />} />
+          <Route path='/404' element={<NotFound />} />
           {/* <Route path='/employee-reports' element={<EmployeeReports />} /> */}
           {/* <Route path='/create-report' element={<EmployeeList />} />
           <Route path='/update-report' element={<EmployeeList />} /> */}

@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { getUserDetails } from '../actions/userActions'
+import { listReportsByEmployee } from '../actions/reportActions'
 
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
@@ -14,10 +15,9 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import { display } from '@mui/system'
+import AddIcon from '@mui/icons-material/Add'
 
 import UserProfileCard from './UserProfileCard'
-
-// import UserCard from './UserCard.js'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -39,89 +39,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }))
 
-const reports = [
-  {
-    _id: '1',
-    start_date: '2020-01-01',
-    end_date: '2020-01-07',
-    // user_id: '5e2f8f9b9c8f8b1c8c8f8f8f',
-    task: 'Node Test',
-    description:
-      'The test was very competitive and hard, but the trainees managed to overcome it.',
-    satisfactory_score: 2,
-    hours_worked: 47,
-    remarks: "That's very positive...",
-    is_received: true,
-    is_approved: true,
-  },
-  {
-    _id: '2',
-    start_date: '2020-01-01',
-    end_date: '2020-01-07',
-    // user_id: '5e2f8f9b9c8f8b1c8c8f8f8f',
-    task: 'Node Test',
-    description:
-      'The test was very competitive and hard, but the trainees managed to overcome it.',
-    satisfactory_score: 2,
-    hours_worked: 47,
-    remarks: '',
-    is_received: false,
-    is_approved: false,
-  },
-  {
-    _id: '3',
-    start_date: '2020-01-01',
-    end_date: '2020-01-07',
-    // user_id: '5e2f8f9b9c8f8b1c8c8f8f8f',
-    task: 'Node Test',
-    description:
-      'The test was very competitive and hard, but the trainees managed to overcome it.',
-    satisfactory_score: 2,
-    hours_worked: 47,
-    remarks: "That's very positive...",
-    is_received: true,
-    is_approved: true,
-  },
-  {
-    _id: '4',
-    start_date: '2020-01-01',
-    end_date: '2020-01-07',
-    // user_id: '5e2f8f9b9c8f8b1c8c8f8f8f',
-    task: 'Node Test',
-    description:
-      'The test was very competitive and hard, but the trainees managed to overcome it.',
-    satisfactory_score: 2,
-    hours_worked: 47,
-    remarks: 'You need to work harder...',
-    is_received: true,
-    is_approved: false,
-  },
-  {
-    _id: '5',
-    start_date: '2020-01-01',
-    end_date: '2020-01-07',
-    // user_id: '5e2f8f9b9c8f8b1c8c8f8f8f',
-    task: 'Node Test',
-    description:
-      'The test was very competitive and hard, but the trainees managed to overcome it.',
-    satisfactory_score: 2,
-    hours_worked: 47,
-    remarks: 'Good but you can do better...',
-    is_received: true,
-    is_approved: false,
-  },
-]
-
 const EmployeeReports = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  const userLoginReducer = useSelector((state) => state.userLogin)
+  const { userInfo } = userLoginReducer
+
   const userDetails = useSelector((state) => state.userDetails)
   const { loading, error, user } = userDetails
 
+  const getReportsByEmployee = useSelector(
+    (state) => state.listReportsByEmployee
+  )
+  const {
+    loading: loadingReports,
+    error: errorReports,
+    reports,
+  } = getReportsByEmployee
+
   useEffect(() => {
     dispatch(getUserDetails(id))
+
+    dispatch(listReportsByEmployee(id))
   }, [dispatch, id])
 
   const reportOpener = (reportId) => {
@@ -152,12 +93,12 @@ const EmployeeReports = () => {
   return (
     <div style={{ marginTop: '120px' }}>
       {/* <div style={{ marginTop: '120px' }}>
-      <UserProfileCard />
-      <Typography variant='h4'>My Reports</Typography>
-      <Divider />
+        <UserProfileCard />
+        <Typography variant='h4'>My Reports</Typography>
+        <Divider />
 
-      <div className='container'></div>
-    </div> */}
+        <div className='container'></div>
+      </div> */}
 
       {user && (
         <UserProfileCard
@@ -169,42 +110,18 @@ const EmployeeReports = () => {
             role: user.role,
           }}
         />
-        // <div>xkjcvnkjn</div>
-
-        // <>
-        //   {/* Start of User Card */}
-
-        //   <div className='clearfix'>
-        //     <div className='row'>
-        //       <div className='col-md-4 animated fadeIn'>
-        //         <div className='card'>
-        //           <div className='card-body'>
-        //             <div>Personal Details</div>
-        //             <div className='avatar'></div>
-        //             <h5 className='card-title'>{user.name}</h5>
-        //             <h5 className='card-title'>{user.email}</h5>
-        //             <p className='card-text'>
-        //               Varanasi
-        //               <br />
-        //               <span className='phone'>{user.department}</span>
-        //             </p>
-        //           </div>
-        //         </div>
-        //       </div>
-        //     </div>
-        //   </div>
-        //   {/* End of User Card */}
-        // </>
       )}
 
       {/* add report button for employees */}
-      <Button
-        variant='contained'
-        style={{ padding: '10px', margin: '10px 0' }}
-        onClick={newReportHandler}
-      >
-        + New Report
-      </Button>
+      {userInfo && userInfo.role === 'Employee' && (
+        <Button
+          variant='contained'
+          style={{ padding: '10px', margin: '10px 0', marginBottom: '30px' }}
+          onClick={newReportHandler}
+        >
+          {<AddIcon />} New Report
+        </Button>
+      )}
 
       {/* Employee's list of reports */}
       <TableContainer component={Paper}>
@@ -233,10 +150,10 @@ const EmployeeReports = () => {
                     {index + 1}
                   </StyledTableCell>
                   <StyledTableCell component='th' scope='row'>
-                    {report.start_date}
+                    {new Date(report.start_date).toLocaleDateString('en-US')}
                   </StyledTableCell>
                   <StyledTableCell component='th' scope='row'>
-                    {report.end_date}
+                    {new Date(report.end_date).toLocaleDateString('en-US')}
                   </StyledTableCell>
                   <StyledTableCell component='th' scope='row'>
                     {report.task}
@@ -284,48 +201,60 @@ const EmployeeReports = () => {
                           gap: '10px',
                         }}
                       >
-                        {/* admin's buttons */}
-                        <Button
-                          variant='outlined'
-                          color='primary'
-                          onClick={() => {
-                            approveReportHandler(report._id)
-                          }}
-                        >
-                          Approve
-                        </Button>
-                        <Button
-                          variant='outlined'
-                          color='primary'
-                          onClick={() => {
-                            rejectReportHandler(report._id)
-                          }}
-                        >
-                          Reject
-                        </Button>
-
-                        {/* employers button */}
-                        {!report.is_received && !report.is_approved && (
+                        {userInfo.role === 'Admin' ? (
                           <>
-                            <Button
-                              variant='outlined'
-                              color='primary'
-                              onClick={() => {
-                                editReportHandler(report._id)
-                              }}
-                            >
-                              Edit
-                            </Button>
-                            <Button
-                              variant='outlined'
-                              color='primary'
-                              onClick={() => {
-                                deleteReportHandler(report._id)
-                              }}
-                            >
-                              Delete
-                            </Button>
+                            {/* admin's buttons */}
+                            {!report.is_received && (
+                              <>
+                                <Button
+                                  variant='outlined'
+                                  color='primary'
+                                  onClick={() => {
+                                    approveReportHandler(report._id)
+                                  }}
+                                >
+                                  Approve
+                                </Button>
+                                <Button
+                                  variant='outlined'
+                                  color='primary'
+                                  onClick={() => {
+                                    rejectReportHandler(report._id)
+                                  }}
+                                >
+                                  Reject
+                                </Button>
+                              </>
+                            )}
                           </>
+                        ) : userInfo.role === 'Employee' ? (
+                          <>
+                            {/* employers button */}
+                            {!report.is_received && !report.is_approved && (
+                              <>
+                                <Button
+                                  variant='outlined'
+                                  color='primary'
+                                  onClick={() => {
+                                    editReportHandler(report._id)
+                                  }}
+                                >
+                                  Edit
+                                </Button>
+                                <Button
+                                  variant='outlined'
+                                  color='primary'
+                                  onClick={() => {
+                                    deleteReportHandler(report._id)
+                                  }}
+                                >
+                                  Delete
+                                </Button>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          <></>
                         )}
                       </div>
                     }

@@ -29,7 +29,7 @@ const createReportReducer = (state = {}, action) => {
     case REPORT_CREATE_REQUEST:
       return { loading: true }
     case REPORT_CREATE_SUCCESS:
-      return { loading: false, success: true }
+      return { loading: false, report: action.payload }
     case REPORT_CREATE_FAIL:
       return { loading: false, error: action.payload }
     case REPORT_CREATE_RESET:

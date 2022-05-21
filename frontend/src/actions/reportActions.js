@@ -21,7 +21,15 @@ import {
 } from '../constants/reportConstants'
 
 const createReport =
-  (start_date, end_date, task, description, satisfactory_score, hours_worked) =>
+  (
+    start_date,
+    end_date,
+    task,
+    description,
+    satisfactory_score,
+    hours_worked,
+    remarks
+  ) =>
   async (dispatch, getState) => {
     try {
       dispatch({
@@ -44,12 +52,12 @@ const createReport =
         {
           start_date,
           end_date,
-          REPORT_id: userInfo._id,
+          user_id: userInfo._id,
           task,
           description,
           hours_worked,
           satisfactory_score,
-          remarks: '',
+          remarks,
         },
         config
       )
@@ -144,7 +152,8 @@ const updateReport =
     task,
     description,
     satisfactory_score,
-    hours_worked
+    hours_worked,
+    remarks
   ) =>
   async (dispatch, getState) => {
     try {
@@ -172,6 +181,7 @@ const updateReport =
           description,
           satisfactory_score,
           hours_worked,
+          remarks,
         },
         config
       )

@@ -46,7 +46,9 @@ export const getReportById = asyncHandler(async (req, res) => {
 // @route    GET /api/reports/user/:id
 // @access   Auth
 export const getReportsByUserId = asyncHandler(async (req, res) => {
-  const report = await Report.find({ user_id: req.params.id })
+  const report = await Report.find({ user_id: req.params.id }, '', {
+    sort: { start_date: -1 },
+  })
 
   if (report) {
     res.status(200).json(report)
@@ -83,7 +85,7 @@ export const createReport = asyncHandler(async (req, res) => {
     user_id,
     task,
     description,
-    hours_wored,
+    hours_worked,
     satisfactory_score,
     remarks,
   } = req.body
@@ -94,7 +96,7 @@ export const createReport = asyncHandler(async (req, res) => {
     user_id,
     task,
     description,
-    hours_wored,
+    hours_worked,
     satisfactory_score,
     remarks,
     is_received: false,
@@ -123,7 +125,7 @@ export const updateReport = asyncHandler(async (req, res) => {
         report.user_id = req.body.user_id || report.user_id
         report.task = req.body.task || report.task
         report.description = req.body.description || report.description
-        report.hours_wored = req.body.hours_wored || report.hours_wored
+        report.hours_worked = req.body.hours_worked || report.hours_wored
         report.satisfactory_score =
           req.body.satisfactory_score || report.satisfactory_score
         report.remarks = req.body.remarks || report.remarks

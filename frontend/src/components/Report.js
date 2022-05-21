@@ -1,99 +1,160 @@
-import React, { useState } from 'react'
-import './Report.css'
-import { Container, Row, Col, Form, Button } from 'react-bootstrap'
-import ReactStars from 'react-rating-stars-component'
-function Report() {
-  const [stars, setStars] = useState(0)
+import * as React from 'react'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+import Link from '@mui/material/Link'
+import Grid from '@mui/material/Grid'
+import Box from '@mui/material/Box'
+import AssessmentIcon from '@mui/icons-material/Assessment'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import Rating from '@mui/material/Rating'
+import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import Stack from '@mui/material/Stack'
 
-  var example = {
-    size: 40,
-    value: stars,
-    onChange: (newValue) => {
-      setStars(newValue)
-      console.log(newValue)
-    },
+const theme = createTheme()
+
+export default function AddReport() {
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    })
   }
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    alert('form submitted succesfully')
-  }
+  // For Rating
+  const [value, setValue] = React.useState(0)
+  const [valueDate, setValueDate] = React.useState(new Date())
   return (
-    <Container width='xs'>
-      <Form className='form mt-3'>
-        <h3 className='weekly'>Weekly Report</h3>
-        <Row className='mb-3 justify-content-md-center '>
-          <Col xs lg='3'>
-            <Form.Group as={Col} controlId='from'>
-              <Form.Label className='label'>From</Form.Label>
-              <Form.Control className='input' type='date' />
-            </Form.Group>
-          </Col>
-
-          <Col xs lg='3'>
-            <Form.Group as={Col} controlId='to'>
-              <Form.Label className='label'>
-                <b>To</b>
-              </Form.Label>
-              <Form.Control className='input' type='date' />
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className='mb-3 justify-content-md-center'>
-          <Col xs lg='3'>
-            <Form.Label className='label'>Task Name</Form.Label>
-            <Form.Control
-              className='input'
-              type='text'
-              placeholder='Task Name'
-            />
-          </Col>
-          <Col xs lg='3'>
-            <Form.Label className='label'>No. of Hours</Form.Label>
-            <Form.Control
-              className='input'
-              type='number'
-              placeholder='No. of Hours'
-            />
-          </Col>
-        </Row>
-        <Row className='mb-3 justify-content-md-center'>
-          <Col xs lg='6'>
-            <Form.Label className='label'>Description</Form.Label>
-            <Form.Control
-              className='input'
-              as='textarea'
-              placeholder='Add description of your task...'
-              rows={4}
-            />
-          </Col>
-        </Row>
-        <Row className='mb-3 justify-content-md-center'>
-          <Col xs lg='6'>
-            <Form.Label className='label'>Satisfactory score</Form.Label>
-            <ReactStars {...example} />
-          </Col>
-        </Row>
-        <Row className='mb-3 justify-content-md-center'>
-          <Col xs lg='6'>
-            <Form.Label className='label'>Remarks</Form.Label>
-            <Form.Control
-              className='input'
-              as='textarea'
-              placeholder='Any feedback Please share with us...'
-              rows={4}
-            />
-          </Col>
-        </Row>
-        <Row className='mb-3 justify-content-md-end'>
-          <Col xs lg='4'>
-            <Button variant='success' onClick={handleSubmit}>
-              Add
-            </Button>{' '}
-          </Col>
-        </Row>
-      </Form>
-    </Container>
+    <ThemeProvider theme={theme}>
+      <Container component='main' maxWidth='xs'>
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <AssessmentIcon />
+          </Avatar>
+          <Typography component='h1' variant='h5'>
+            Add Report
+          </Typography>
+          <Box
+            component='form'
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                {/* Date */}
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <Stack spacing={3}>
+                    <DatePicker
+                      views={['day']}
+                      label='Start Date'
+                      value={valueDate}
+                      onChange={(newValueDate) => {
+                        setValue(newValueDate)
+                      }}
+                      renderInput={(params) => (
+                        <TextField {...params} helperText={null} />
+                      )}
+                    />
+                    <DatePicker
+                      views={['day']}
+                      label='End Date'
+                      value={valueDate}
+                      onChange={(newValueDate) => {
+                        setValue(newValueDate)
+                      }}
+                      renderInput={(params) => (
+                        <TextField {...params} helperText={null} />
+                      )}
+                    />
+                  </Stack>
+                </LocalizationProvider>
+                {/* Date */}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  name='task'
+                  required
+                  fullWidth
+                  id='task'
+                  label='Task Name'
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id='description'
+                  label='Description'
+                  name='description'
+                  multiline
+                  rows={4}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    '& > legend': { mt: 2 },
+                  }}
+                />
+                <Typography component='legend'>Satisfactory Score</Typography>
+                <Rating
+                  name='simple-controlled'
+                  value={value}
+                  onChange={(event, newValue) => {
+                    setValue(newValue)
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id='hours'
+                  label='Hours Worked'
+                  name='hours'
+                  type='number'
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name='remarks'
+                  label='Remarks'
+                  type='text'
+                  id='remark'
+                />
+              </Grid>
+            </Grid>
+            <Button
+              type='submit'
+              fullWidth
+              variant='contained'
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Submit Report
+            </Button>
+          </Box>
+        </Box>
+      </Container>
+    </ThemeProvider>
   )
 }
-
-export default Report

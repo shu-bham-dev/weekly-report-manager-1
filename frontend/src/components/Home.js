@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 
 import EmployeeList from './EmployeeList'
-import PersonalReports from './PersonalReports'
+import EmployeeReports from './EmployeeReports'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -15,6 +15,12 @@ const Home = () => {
   useEffect(() => {
     if (!userInfo) {
       navigate('/login')
+    } else if (userInfo.role === 'Admin') {
+      navigate('/employee-list')
+    } else if (userInfo.role === 'Employee') {
+      navigate(`/employee/${userInfo._id}`)
+    } else {
+      navigate('/404')
     }
   }, [dispatch, userInfo, navigate])
 
