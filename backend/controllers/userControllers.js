@@ -208,81 +208,12 @@ export const getUserById = asyncHandler(async (req, res) => {
     .select('-__v')
 
   if (user) {
+    user.role = getUserRole(user.role)
+
     res.json(user)
   } else {
     res.status(404)
     throw new Error('User not found')
-  }
-})
-
-// @desc     Get a user profile
-// @route    GET /api/users/:id/profile
-// @access   Private
-export const getUserProfile = asyncHandler(async (req, res) => {
-  // console.log('req.user._id', req.user._id)
-  // console.log('req.params.id', req.params.id)
-  if (req.user._id == req.params.id) {
-    const user = await User.findById(req.params.id)
-
-    if (user) {
-      res.json({
-        _id: user._id,
-        name: user.name,
-        role: user.role,
-        project: user.project,
-        email: user.email,
-        dateofjoin: user.dateofjoin,
-        department: user.department,
-        gender: user.gender,
-      })
-    } else {
-      res.status(404)
-      throw new Error('User not found')
-    }
-  } else {
-    res.status(401)
-    throw new Error('User not authorized')
-  }
-})
-
-// @desc    Update user profile
-// @route   PUT /api/users/:id/
-// @access  Private
-export const updateUserProfile = asyncHandler(async (req, res) => {
-  if (req.user._id == req.params.id) {
-    const user = await User.findById(req.params.id)
-
-    if (user) {
-      user.name = req.body.name || user.name
-      user.email = req.body.email || user.email
-      user.about = req.body.about || user.about
-      if (req.body.password) {
-        user.password = req.body.password
-      }
-
-      const updatedUser = await user.save()
-
-      if (updatedUser) {
-        res.json({
-          _id: updatedUser._id,
-          name: updatedUser.name,
-          email: updatedUser.email,
-          about: updatedUser.about,
-          role: updatedUser.role,
-          history: updatedUser.history,
-          createdAt: updatedUser.createdAt,
-        })
-      } else {
-        res.status(400)
-        throw new Error('User not updated')
-      }
-    } else {
-      res.status(404)
-      throw new Error('User not found')
-    }
-  } else {
-    res.status(401)
-    throw new Error('User not authorized')
   }
 })
 

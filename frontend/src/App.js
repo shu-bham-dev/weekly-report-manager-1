@@ -19,7 +19,7 @@ function App() {
   return (
     <>
       <Router>
-        {/* <Header /> */}
+        <Header />
         <Routes>
           <Route exact path='/' element={<Home />} />
           <Route path='/register' element={<Register />} />

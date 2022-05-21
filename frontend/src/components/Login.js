@@ -24,6 +24,7 @@ const theme = createTheme()
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -35,7 +36,6 @@ const Login = () => {
 
   useEffect(() => {
     if (userInfo) {
-      localStorage.setItem('userInfo', JSON.stringify(userInfo))
       navigate('/')
     }
   }, [userInfo, navigate])
@@ -47,7 +47,7 @@ const Login = () => {
       return
     }
     // dispatch the login action
-    dispatch(login(email, password))
+    dispatch(login(email, password, rememberMe))
   }
 
   return (
@@ -185,6 +185,7 @@ const Login = () => {
                 <FormControlLabel
                   control={<Checkbox value='remember' color='primary' />}
                   label='Remember me'
+                  onChange={(event) => setRememberMe(event.target.checked)}
                 />
                 <Button
                   type='submit'
@@ -201,7 +202,11 @@ const Login = () => {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href='#' variant='body2'>
+                    <Link
+                      variant='body2'
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => navigate('/register')}
+                    >
                       {"Don't have an account? Sign Up"}
                     </Link>
                   </Grid>

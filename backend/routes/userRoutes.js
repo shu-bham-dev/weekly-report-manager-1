@@ -2,8 +2,6 @@ import express from 'express'
 import {
   getUsers,
   getUserById,
-  getUserProfile,
-  updateUserProfile,
   userLogin,
   userRegister,
   deleteUser,
@@ -16,9 +14,9 @@ const router = express.Router()
 router.route('/').post(userRegister).get(getUsers)
 // .get(isAuth, isAdmin, getAllUsers)
 router.route('/login').post(userLogin)
-router.route('/:id').get(getUserById).put(updateUserProfile).delete(deleteUser)
+router.route('/:id').get(getUserById).delete(deleteUser)
 // router.route('/:id').get(isAuth, isAdmin, getUserById).put(updateUserProfile)
-router.route('/:id/profile').get(getUserProfile)
+// router.route('/:id/profile').get(getUserProfile)
 // router.route('/:id/profile').get(isAuth, getUserProfile)
 // router.route('/:id/profile').delete(deleteUser)
 

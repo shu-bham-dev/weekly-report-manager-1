@@ -15,7 +15,9 @@ import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import { display } from '@mui/system'
 
-import UserCard from './UserCard.js'
+import UserProfileCard from './UserProfileCard'
+
+// import UserCard from './UserCard.js'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -148,39 +150,51 @@ const EmployeeReports = () => {
   }
 
   return (
-    <>
-      <div>EmployeeReports</div>
-      <div>EmployeeReports</div>
-      <div>EmployeeReports</div>
-      <div>EmployeeReports</div>
-      <div>EmployeeReports</div>
-      <div>{id}</div>
+    <div style={{ marginTop: '120px' }}>
+      {/* <div style={{ marginTop: '120px' }}>
+      <UserProfileCard />
+      <Typography variant='h4'>My Reports</Typography>
+      <Divider />
+
+      <div className='container'></div>
+    </div> */}
 
       {user && (
-        <>
-          {/* Start of User Card */}
+        <UserProfileCard
+          user={{
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            department: user.department,
+            role: user.role,
+          }}
+        />
+        // <div>xkjcvnkjn</div>
 
-          <div className='clearfix'>
-            <div className='row'>
-              <div className='col-md-4 animated fadeIn'>
-                <div className='card'>
-                  <div className='card-body'>
-                    <div>Personal Details</div>
-                    <div className='avatar'></div>
-                    <h5 className='card-title'>{user.name}</h5>
-                    <h5 className='card-title'>{user.email}</h5>
-                    <p className='card-text'>
-                      Varanasi
-                      <br />
-                      <span className='phone'>{user.department}</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* End of User Card */}
-        </>
+        // <>
+        //   {/* Start of User Card */}
+
+        //   <div className='clearfix'>
+        //     <div className='row'>
+        //       <div className='col-md-4 animated fadeIn'>
+        //         <div className='card'>
+        //           <div className='card-body'>
+        //             <div>Personal Details</div>
+        //             <div className='avatar'></div>
+        //             <h5 className='card-title'>{user.name}</h5>
+        //             <h5 className='card-title'>{user.email}</h5>
+        //             <p className='card-text'>
+        //               Varanasi
+        //               <br />
+        //               <span className='phone'>{user.department}</span>
+        //             </p>
+        //           </div>
+        //         </div>
+        //       </div>
+        //     </div>
+        //   </div>
+        //   {/* End of User Card */}
+        // </>
       )}
 
       {/* add report button for employees */}
@@ -321,7 +335,7 @@ const EmployeeReports = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </>
+    </div>
   )
 }
 

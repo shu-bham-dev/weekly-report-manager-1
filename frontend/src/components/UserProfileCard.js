@@ -1,42 +1,38 @@
 import { Avatar, Card, CardHeader, Typography } from '@mui/material'
 import React from 'react'
-import { useNavigate } from 'react-router'
-import {
-  getRandomColor,
-  createImageFromInitials,
-  getInitials,
-} from './utilities'
+// import { useNavigate } from 'react-router'
+import { getRandomColor, getInitials } from './utilities'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 
 const UserProfileCard = ({ user }) => {
-  let id = 'f43h48s777f89ff2'
-  let name = 'John Smith'
-  let email = 'john.smith@gmail.com'
-  let department = 'Web Development'
-  let role = 'Employee'
-
-  let imgSrc = ''
   let color = getRandomColor()
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   return (
-    <div>
+    <div
+      style={{
+        margin: '20px 0',
+      }}
+    >
       <Card
         sx={{
-          width: '100%',
           boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
+          border: '1px solid #c4c4c4',
+          borderRadius: '10px',
           backgroundColor: '#ececec',
-          padding: '20px',
+          padding: '10px',
         }}
       >
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: `${color}` }}>{getInitials(name)}</Avatar>
+            <Avatar sx={{ bgcolor: `${color}` }}>
+              {getInitials(`${user.name}`)}
+            </Avatar>
           }
           style={{ padding: '0 0 10px 0' }}
-          title={name}
-          subheader={department}
+          title={user.name}
+          subheader={user.department}
         ></CardHeader>
 
         <table
@@ -49,7 +45,7 @@ const UserProfileCard = ({ user }) => {
               <Typography>Name</Typography>
             </td>
             <td>
-              <Typography>{name}</Typography>
+              <Typography>{user.name}</Typography>
             </td>
           </tr>
           <tr>
@@ -58,13 +54,13 @@ const UserProfileCard = ({ user }) => {
             </td>
             <td>
               <Typography>
-                {id}{' '}
+                {user._id}{' '}
                 {
                   <ContentCopyIcon
                     style={{ height: '16px', cursor: 'pointer' }}
                     onClick={() => {
-                      navigator.clipboard.writeText(`${id}`)
-                      alert(`Copied the ID of ${name}`)
+                      navigator.clipboard.writeText(`${user._id}`)
+                      alert(`Copied the ID of ${user.name}`)
                     }}
                   />
                 }
@@ -76,7 +72,7 @@ const UserProfileCard = ({ user }) => {
               <Typography>Role</Typography>
             </td>
             <td>
-              <Typography>{role}</Typography>
+              <Typography>{user.role}</Typography>
             </td>
           </tr>
           <tr>
@@ -84,7 +80,7 @@ const UserProfileCard = ({ user }) => {
               <Typography>Email</Typography>
             </td>
             <td>
-              <Typography>{email}</Typography>
+              <Typography>{user.email}</Typography>
             </td>
           </tr>
           <tr>
@@ -92,7 +88,7 @@ const UserProfileCard = ({ user }) => {
               <Typography>Department</Typography>
             </td>
             <td>
-              <Typography>{department}</Typography>
+              <Typography>{user.department}</Typography>
             </td>
           </tr>
         </table>
@@ -104,5 +100,11 @@ const UserProfileCard = ({ user }) => {
 export default UserProfileCard
 
 UserProfileCard.defaultProps = {
-  user: {},
+  user: {
+    _id: '',
+    name: '',
+    email: '',
+    department: '',
+    role: '',
+  },
 }
